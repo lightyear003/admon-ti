@@ -1,0 +1,12 @@
+[
+  {
+    "id": "COBIT-01",
+    "domain": "Evaluación de riesgos",
+    "question": "¿Se gestionan formalmente los riesgos de TI?"
+  },
+  {
+    "id": "COBIT-02",
+    "domain": "Entrega de servicios",
+    "question": "¿Se mide regularmente el desempeño de los servicios TI?"
+  }
+]

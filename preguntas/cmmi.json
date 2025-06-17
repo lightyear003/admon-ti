@@ -1,0 +1,12 @@
+[
+  {
+    "id": "CMMI-01",
+    "domain": "Gestión de proyectos",
+    "question": "¿Se definen claramente los objetivos de cada proyecto?"
+  },
+  {
+    "id": "CMMI-02",
+    "domain": "Gestión de procesos",
+    "question": "¿Existe un control documentado de los procesos TI?"
+  }
+]

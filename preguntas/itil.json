@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ITIL-01",
+    "domain": "Gestión de incidencias",
+    "question": "¿Existe un proceso documentado para resolver incidencias?"
+  },
+  {
+    "id": "ITIL-02",
+    "domain": "Gestión de cambios",
+    "question": "¿Se analizan riesgos antes de realizar cambios en TI?"
+  }
+]
