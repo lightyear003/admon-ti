@@ -1,0 +1,17 @@
+{
+  "CMMI": {
+    "Deficiente": "Se recomienda realizar una auditoría interna completa sobre procesos de desarrollo y documentación.",
+    "Aceptable": "Revisar los indicadores de madurez de procesos críticos y establecer controles de mejora.",
+    "Óptimo": "Mantener las prácticas actuales y documentar experiencias para retroalimentar otros equipos."
+  },
+  "COBIT": {
+    "Deficiente": "Implementar un plan de gestión de riesgos y controles de acceso urgente.",
+    "Aceptable": "Optimizar las métricas de desempeño en TI para asegurar su alineación con el negocio.",
+    "Óptimo": "Consolidar el marco de gobierno y asegurar su aplicación continua mediante monitoreo."
+  },
+  "ITIL": {
+    "Deficiente": "Establecer procedimientos claros para el manejo de incidencias y cambios.",
+    "Aceptable": "Automatizar procesos de gestión de incidencias y seguimiento de cambios.",
+    "Óptimo": "Continuar con la mejora continua y realizar simulacros periódicos de respuesta ante fallos."
+  }
+}

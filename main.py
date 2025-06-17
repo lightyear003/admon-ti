@@ -1,10 +1,10 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
 import json
 import os
 from evaluador import evaluar_respuestas
+from report_generator import generar_reporte_pdf
 
-# Cargar preguntas desde archivos JSON
 def cargar_preguntas():
     base = "preguntas"
     marcos = {}
@@ -24,7 +24,6 @@ class DiagnosticoApp:
         self.preguntas_actuales = []
         self.indice_pregunta = 0
         self.marco_actual = None
-
         self.frame_inicio()
 
     def frame_inicio(self):
@@ -41,17 +40,43 @@ class DiagnosticoApp:
         self.marco_actual = marco
         self.preguntas_actuales = self.marcos[marco]
         self.indice_pregunta = 0
+
+        messagebox.showinfo(
+            "Instrucciones",
+            f"Contesta las siguientes {len(self.preguntas_actuales)} preguntas usando una escala del 1 al 5:\n\n"
+            "1 = Nunca / No existe\n"
+            "3 = Parcialmente implementado\n"
+            "5 = Completamente implementado"
+        )
+
         self.mostrar_pregunta()
 
     def mostrar_pregunta(self):
         self.clear_frame()
         pregunta = self.preguntas_actuales[self.indice_pregunta]
+
+        lbl_num = tk.Label(
+            self.root,
+            text=f"Pregunta {self.indice_pregunta + 1} de {len(self.preguntas_actuales)}",
+            font=("Arial", 10),
+            fg="gray"
+        )
+        lbl_num.pack(pady=5)
+
         lbl = tk.Label(self.root, text=f"{pregunta['id']}: {pregunta['question']}", wraplength=400, font=("Arial", 12))
         lbl.pack(pady=10)
 
         self.valor = tk.IntVar()
-        for i in range(1, 6):
-            tk.Radiobutton(self.root, text=str(i), variable=self.valor, value=i).pack()
+        opciones = {
+            1: "1 - Nunca",
+            2: "2 - Rara vez",
+            3: "3 - A veces",
+            4: "4 - Frecuentemente",
+            5: "5 - Siempre"
+        }
+
+        for val, texto in opciones.items():
+            tk.Radiobutton(self.root, text=texto, variable=self.valor, value=val).pack(anchor="w")
 
         btn = tk.Button(self.root, text="Siguiente", command=self.guardar_respuesta)
         btn.pack(pady=10)
@@ -71,20 +96,27 @@ class DiagnosticoApp:
     def clear_frame(self):
         for widget in self.root.winfo_children():
             widget.destroy()
-        # Mostrar botón de resultados si hay datos
         if any(len(r) > 0 for r in self.respuestas.values()):
             tk.Button(self.root, text="Ver Resultados", command=self.mostrar_resultados).pack(side="bottom", pady=10)
 
     def mostrar_resultados(self):
         self.clear_frame()
         resultados = evaluar_respuestas(self.respuestas)
+
         tk.Label(self.root, text="Resultados del Diagnóstico", font=("Arial", 14)).pack(pady=10)
-
         for marco, data in resultados.items():
-            tk.Label(self.root, text=f"{marco}: {data['evaluacion']} (Promedio: {data['promedio']})",
-                     font=("Arial", 12)).pack(pady=5)
+            tk.Label(
+                self.root,
+                text=f"{marco}: {data['evaluacion']} (Promedio: {data['promedio']})",
+                font=("Arial", 12)
+            ).pack(pady=5)
 
-        tk.Button(self.root, text="Reiniciar", command=self.reiniciar).pack(pady=20)
+        tk.Button(self.root, text="Exportar PDF", command=lambda: self.exportar(resultados)).pack(pady=5)
+        tk.Button(self.root, text="Reiniciar", command=self.reiniciar).pack(pady=10)
+
+    def exportar(self, resultados):
+        generar_reporte_pdf(resultados)
+        messagebox.showinfo("Exportación exitosa", "El archivo 'reporte.pdf' fue generado exitosamente.")
 
     def reiniciar(self):
         self.respuestas = {marco: [] for marco in self.marcos}
@@ -92,6 +124,7 @@ class DiagnosticoApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("500x400")
+    root.geometry("500x450")
     app = DiagnosticoApp(root)
     root.mainloop()
+
